@@ -1,4 +1,4 @@
-package A12_DijkstraLand;
+package A12_DijkstraLand_fertig;
 
 public class Vertex {
 	public int vertex;

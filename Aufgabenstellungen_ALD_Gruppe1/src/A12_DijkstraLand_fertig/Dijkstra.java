@@ -1,4 +1,4 @@
-package A12_DijkstraLand;
+package A12_DijkstraLand_fertig;
 
 import java.util.ArrayList;
 import java.util.List;
