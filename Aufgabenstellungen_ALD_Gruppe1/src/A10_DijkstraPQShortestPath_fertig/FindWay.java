@@ -1,4 +1,4 @@
-package A10_DijkstraPQShortestPath;
+package A10_DijkstraPQShortestPath_fertig;
 
 
 import java.util.ArrayList;
