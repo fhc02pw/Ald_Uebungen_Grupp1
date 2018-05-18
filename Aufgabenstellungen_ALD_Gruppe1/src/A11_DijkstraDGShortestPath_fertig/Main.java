@@ -1,4 +1,4 @@
-package A11_DijkstraDGShortestPath;
+package A11_DijkstraDGShortestPath_fertig;
 import java.util.List;
 
 public class Main {
@@ -17,11 +17,26 @@ public class Main {
 		g.addEdge(3, 6,  2);
 		g.addEdge(3, 7,  1);
 		g.addEdge(5, 6,  3);
+		
+		Graph g2 = new ListGraph(4, false);
+		g2.addEdge(0, 1, 2, false);
+		g2.addEdge(0, 2, 1, true);
+		g2.addEdge(1, 3, 2, false);
+		g2.addEdge(2, 3, 1, true);
 
 		DijkstraDGShortestPath dfs = new DijkstraDGShortestPath(g);
-		List<Integer> way = dfs.findWay(0, 7);
+		List<Integer> way = dfs.findWay(0, 7, false);
 		printWay(way);
 
+		System.out.println("*** Test useChargeRoads = false. Expected: 0 -> 1 -> 3 ***");
+		dfs = new DijkstraDGShortestPath(g2);
+		way = dfs.findWay(0, 3, false);
+		printWay(way);
+		
+		System.out.println("*** Test useChargeRoads = true. Expected: 0 -> 2 -> 3 ***");
+		dfs = new DijkstraDGShortestPath(g2);
+		way = dfs.findWay(0, 3, true);
+		printWay(way);
 	}
 	
 	public static void printWay(List<Integer> way) {
@@ -34,5 +49,7 @@ public class Main {
 				System.out.print(" -> ");
 			System.out.print(way.get(i));
 		}
+		
+		System.out.print("\n\n\n");
 	}
 }

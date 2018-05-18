@@ -1,4 +1,4 @@
-package A11_DijkstraDGShortestPath;
+package A11_DijkstraDGShortestPath_fertig;
 import java.util.List;
 
 
@@ -10,6 +10,7 @@ public interface Graph {
 	public int getEdgeWeight(int u, int v);
 	public void addEdge(int u, int v);
 	public void addEdge(int u, int v, int weight);
+	public void addEdge(int u, int v, int weight, boolean charge);
 	public void removeEdge(int u, int v);
 	public List<WeightedEdge> getEdges(int v);
 }

@@ -1,4 +1,4 @@
-package A11_DijkstraDGShortestPath;
+package A11_DijkstraDGShortestPath_fertig;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +40,16 @@ public class ListGraph implements Graph {
 	}
 	
 	public void addEdge(int u, int v, int weight) {
-		graph[u].add(new WeightedEdge(u, v, weight));
+		graph[u].add(new WeightedEdge(u, v, weight, false));
 		if (!directed) {
-			graph[v].add(new WeightedEdge(v, u, weight));
+			graph[v].add(new WeightedEdge(v, u, weight, false));
+		}
+	}
+	
+	public void addEdge(int u, int v, int weight, boolean charge) {
+		graph[u].add(new WeightedEdge(u, v, weight, charge));
+		if (!directed) {
+			graph[v].add(new WeightedEdge(v, u, weight, charge));
 		}
 	}
 	

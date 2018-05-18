@@ -1,4 +1,4 @@
-package A11_DijkstraDGShortestPath;
+package A11_DijkstraDGShortestPath_fertig;
 
 
 import java.util.ArrayList;
@@ -17,11 +17,12 @@ public abstract class FindWay {
 	 * Liefert den Weg von (from) nach (to) als Liste zurück
 	 * @param from Startknoten
 	 * @param to Zielknoten
+	 * @param useChargeRoads Benutze alle Straßen oder keine Mautstraßen
 	 * @return Weg von Start nach Ziel oder null
 	 */
-	public List<Integer> findWay(int from, int to) {
+	public List<Integer> findWay(int from, int to, boolean useChargeRoads) {
 		initPathSearch();
-		if (!calculatePath(from, to)) {
+		if (!calculatePath(from, to, useChargeRoads)) {
 			return null;
 		}
 		return createWay(from, to);
@@ -35,7 +36,7 @@ public abstract class FindWay {
 	/**
 	 * Berechnungsfunktion für Weg von (from) nach (to)
 	 */
-	abstract protected boolean calculatePath(int from, int to);
+	abstract protected boolean calculatePath(int from, int to, boolean useChargeRoads);
 	
 	/**
 	 * Weg von (to) nach (from) aus Vorgängerknoten rekonstruieren

@@ -1,4 +1,4 @@
-package A11_DijkstraDGShortestPath;
+package A11_DijkstraDGShortestPath_fertig;
 import java.util.List;
 
 public class DijkstraDGShortestPath extends FindWay {
@@ -25,7 +25,7 @@ public class DijkstraDGShortestPath extends FindWay {
 	 * Berechnet *alle* kürzesten Wege ausgehend vom Startknoten
 	 * @param from Startknoten
 	 */
-	protected boolean calculatePath(int from, int to) {
+	protected boolean calculatePath(int from, int to, boolean useChargeRoads) {
 		dist[from] = 0;
 		while (true) {
 			int v = findNearestUnvisitedVertex();
@@ -35,6 +35,9 @@ public class DijkstraDGShortestPath extends FindWay {
 			visited[v] = true;
 			List<WeightedEdge> edges = graph.getEdges(v);
 			for (WeightedEdge we: edges) {
+				if(!useChargeRoads && we.charge)
+					continue; 
+				
 				int newcost = dist[v] + we.weight;
 				int tov = we.to_vertex;
 				if (newcost < dist[tov]) {
@@ -56,4 +59,5 @@ public class DijkstraDGShortestPath extends FindWay {
 		}
 		return min_pos;
 	}
+	
 }
