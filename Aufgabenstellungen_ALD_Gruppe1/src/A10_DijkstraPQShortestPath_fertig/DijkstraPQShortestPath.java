@@ -34,9 +34,6 @@ public class DijkstraPQShortestPath extends FindWay {
 
 		VertexHeap heap = new VertexHeap(graph.numVertices()); 
 		
-		//distanz initialisieren
-		initPathSearch(); 
-		
 		//vorgänger und heap initialisieren
 		initPredecessorAndHeap(heap);
 		
