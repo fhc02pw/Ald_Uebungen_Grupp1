@@ -9,7 +9,7 @@ public class MergeSort implements PersonenSort {
 	 * Sortier-Funktion
 	 */
 	public void sort(Person[] personen) {
-		// Start des rekursiven Aufrufs
+		// Start des rekursiven Aufrufs für das gesamte Array
 		sort(personen, 0, personen.length-1);
 	}
 
@@ -21,12 +21,16 @@ public class MergeSort implements PersonenSort {
 	 */
 	public void sort(Person[] personen, int start, int end)
 	{
-		if((end - start) < 1) //only one element. No sort
+		//Nur mehr 1 Element bei diesem Aufruf. Teile das Array nicht weiter sondern brich ab, damit im übergeordneten Aufruf
+		//die Elemente in der richtigen Reihenfolge getauscht werden können.
+		
+		if((end - start) < 1) 
 			return; 
+		
 		
 		int mitte = start + (end - start)/2;
 		
-		//Sort the subhalfs before the parts are taken of whole array. 
+		//Array immer in der Mitte teilen, bis nur noch 1 Element übrig ist. 
 		sort(personen, start, mitte); 
 		sort(personen, mitte + 1, end); 
 		
@@ -35,7 +39,8 @@ public class MergeSort implements PersonenSort {
 		Person[] teil1 = Arrays.copyOfRange(personen, start, mitte + 1);
 		Person[] teil2 = Arrays.copyOfRange(personen, mitte + 1, end+1);
 		
-		// Beide Hälften zusammenfügen und in data-Array schreiben
+		// Die beiden extrahierten Hälften sind für sich schon sortiert. Nun müssen
+		//aus den beiden Teilen die einzelnen Elemente in der richtigen Reihenfolge im gesamten Array eingefügt werden. 
 		merge(teil1, teil2, personen, start);
 	}
 
@@ -53,36 +58,44 @@ public class MergeSort implements PersonenSort {
 		
 		int i = 0; 
 		
-		while(indexP1 < pers1.length || indexP2 < pers2.length) //do as long till both arrays have been sorted in result
+		while(indexP1 < pers1.length || indexP2 < pers2.length) //so lange ausführen, bis beide Teile einsortiert sind. 
 		{
 			Person p1 = null; 
-			if(indexP1 < pers1.length)
+			
+			//Bestimme Person aus dem Teil 1, bis dieses vollständig abgearbeitet wurde
+			if(indexP1 < pers1.length) 
 				p1 = pers1[indexP1];
 			
 			Person p2 = null; 
-			if(indexP2 < pers2.length)
+			
+			//Bestimme Person aus dem Teil 2, bis dieses vollständig abgearbeitet wurde
+			if(indexP2 < pers2.length) 
 				p2 = pers2[indexP2];
 			
-			if(p1 == null) //already all persons from first array in result. only add pers2 persons
+			//Schon alle Personen aus Teil 1 abgearbeitet. Füge nur noch Personen aus Teil 2 ins Gesamtarray. 
+			if(p1 == null) 
 			{
 				result[start + i] = p2; 
 				indexP2++; 
 			}
-			else if(p2 == null) //already all persons from second array in result. only add pers1 persons
+			//Schon alle Personen aus Teil 2 abgearbeitet. Füge nur noch Personen aus Teil 1 ins Gesamtarray. 
+			else if(p2 == null)
 			{
 				result[start + i] = p1; 
 				indexP1++; 
 			}
+			
+			//Personen aus beiden Teilen müssen noch eingefügt werden. Füge jene Person ein, die im Ergebnisarray vorher vorhanden sein muss. 
 			else //compare the 2 persons. 
 			{
 				int cmpVal = p1.compareTo(p2); 
 				
-				if(cmpVal < 0) //negative value. p2 is after p1 so take p1
+				if(cmpVal < 0) //Negativer Wert. P1 ist vor P2 -> Füge P1 ein.  
 				{
 					result[start + i] = p1; 
 					indexP1++; 
 				}
-				else if(cmpVal > 0) //positive value. p2 is before p1 so take p2
+				else if(cmpVal > 0) //Positiver Wert. P1 ist nach P2 -> Füge P2 ein.  
 				{
 					result[start + i] = p2; 
 					indexP2++; 

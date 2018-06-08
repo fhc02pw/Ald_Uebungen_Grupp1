@@ -24,6 +24,8 @@ public class Person {
 	 * @return <0, wenn a<b || =0, wenn a=b || >0, wenn a>b
 	 */
 	public int compareTo(Person p) {
+		//Sortiert zuerst nach Nachnamen und dann nach Vornamen. 
+		
 		int cmpVal = this.getNachname().compareTo(p.getNachname()); 
 		
 		if(cmpVal != 0)

@@ -25,18 +25,19 @@ public class Tiefensuche extends BaseTree<Film> {
 	public List<String> getNodesInOrder(Node<Film> node) {
 
 		List<String> filmsInOrder = new LinkedList<>(); 
-		addNodesInOrder(node, filmsInOrder); 
+		addNodesInOrder(node, filmsInOrder); //starte rekursiven Aufruf um Filme aus Teilbaum des Übergabefilms zu retournieren
 		return filmsInOrder; 
 	}
 	
 	public void addNodesInOrder(Node<Film> node, List<String> filmsInOrder) {
 
-		if(node == null)
+		if(node == null) //Brich ab, wenn kein Film gefunden
 			return; 
 		
-		addNodesInOrder(node.getLeft(), filmsInOrder); 
-		filmsInOrder.add(node.getValue().getTitel()); 
-		addNodesInOrder(node.getRight(), filmsInOrder); 
+		//Die Reihenfolge der aufgerufenen Methoden entspricht 'in-order' (links - Node - rechts)
+		addNodesInOrder(node.getLeft(), filmsInOrder);  	//Suche (REKURSION) zuerst im linken Teilbaum und füge dort alle Elemente ein
+		filmsInOrder.add(node.getValue().getTitel()); 		//füge aktuelles Element ein
+		addNodesInOrder(node.getRight(), filmsInOrder); 	//Suche (REKURSION) im rechten Teilbaum und füge von dort alle Elemente ein 
 	}
 	
 	/**
@@ -48,24 +49,28 @@ public class Tiefensuche extends BaseTree<Film> {
 	public List<String> getMinMaxPreOrder(double min, double max) {
 
 		List<String> minMaxPreOrder = new LinkedList<>(); 
-		addMinMaxPreOrder(this.getRoot(), min, max, minMaxPreOrder); 
+		addMinMaxPreOrder(this.getRoot(), min, max, minMaxPreOrder); //Starte rekursiven Aufruf
 		return minMaxPreOrder; 
 	}
 
 	private void addMinMaxPreOrder(Node<Film> node, double min, double max, List<String> minMaxPreOrder) {
 		
-		if(node == null)
+		if(node == null) //Brich ab, wenn kein Node
 			return; 
 		
+		//Hole die Länge des Filmtitels (Es werden ja nur Filme retouniert, welche innerhalb von min und max liegen)
 		double laenge = node.getValue().getLänge(); 
 		
+		//Ist der aktuelle Filmtitel innerhalb von min und max, so füge diesen dem Titel hinzu
 		if(laenge <= max && laenge >= min)
 			minMaxPreOrder.add(node.getValue().getTitel()); 
 		
-		if(min <= laenge) //left
+		//Wenn die aktuelle Länge noch größer ist, als min, dann Suche im linken Teilbaum weiter, bis min unterschritten wurde
+		if(min <= laenge)
 			addMinMaxPreOrder(node.getLeft(), min, max, minMaxPreOrder); 
 		
-		if(max >= laenge) //right
+		//Wenn die aktuelle Länge noch kleiner ist, als max, dann Suche im rechten Teilbaum weiter, bis max überschritten wurde
+		if(max >= laenge) 
 			addMinMaxPreOrder(node.getRight(), min, max, minMaxPreOrder); 
 	}
 

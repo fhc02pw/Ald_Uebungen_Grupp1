@@ -21,66 +21,42 @@ public class Wörterbuch {
 	 * @return Zahl der Wörter (=Anzahl der Elemente)
 	 */
 	public int countWordsInSubTree(Wort w) {
-		if(w == null)
+		if(w == null) //Wort gibt es im Baum nicht. 
 			return 0; 
 		
-		String wordToSearch = w.getWort(); 
-		Wort neededWort = getNeededWord(getRoot(), wordToSearch); 
-		return getWordsUnderWord(neededWort);
-	}
-	
-	private int getWordsUnderWord(Wort w)
-	{
-		if(w == null)
-			return 0; 
-		
-		int currentWordCount = 1; 
-		currentWordCount += getWordsUnderWord(w.getLeft()); 
-		currentWordCount += getWordsUnderWord(w.getRight());
+		int currentWordCount = 1; 							 	//übergebenes Element selbst. 
+		currentWordCount += countWordsInSubTree(w.getLeft());   //Rekursiver Aufruf, damit die Anzahl unter dem linken Teilbaum, berechnet wird
+		currentWordCount += countWordsInSubTree(w.getRight());  //Rekursiver Aufruf, damit die Anzahl unter dem rechten Teilbaum, berechnet wird
 		return currentWordCount; 
 	}
 	
-	private Wort getNeededWord(Wort w, String wordToSearch)
-	{
-		if(w == null)
-			return null; 
-		
-		int cmpVal = wordToSearch.compareTo(w.getWort());
-		if(cmpVal == 0) //found
-			return w; 
-		
-		Wort foundOnLeft = getNeededWord(w.getLeft(), wordToSearch); 
-		if(foundOnLeft != null)
-			return foundOnLeft; 
-		else //return null or found word from right side
-			return getNeededWord(w.getRight(), wordToSearch); 
-	}
-	
-	
-
 	/**
 	 * Liefert die Menge aller Wörter retour, die ein spezifisches Präfix haben.
 	 * @param prefix Wörter müssen diesen Präfix haben
 	 * @return Menge aller zutreffenden Wörter
 	 */
 	public Set<String> getWordsWithPrefix(String prefix) {
-		Set<String> foundWords = new HashSet<>(); 
 		
-		addWordsWithPrefix(getRoot(), prefix, foundWords); 
+		Set<String> foundWords = new HashSet<>(); 
+		addWordsWithPrefix(getRoot(), prefix, foundWords); //Startet die rekursive Suche im Baum für den gegebenen Prefix. 
 		return foundWords;
+		
 	}
 	
 	private void addWordsWithPrefix(Wort w, String prefix, Set<String> set)
 	{
-		if(w == null)
+		if(w == null) //Brich ab, wenn das Wort null ist
 			return; 
 		
+		//Aus aktuellem Wort muss der Prefix extrahiert werden, damit der Vergleich funktioniert. 
 		String prefixOfCurrentWord = w.getWort().substring(0, prefix.length());
 		int cmpVal = prefix.compareTo(prefixOfCurrentWord);
 		
+		//Wenn die Prefixes übereinstimmen, wird es dem Set hinzugefügt. 
 		if(cmpVal == 0)
 			set.add(w.getWort());
 		
+		//Rekursiver Aufruf, damit die linken und rechten Teilbäume ebenfalls durchsucht werden. 
 		addWordsWithPrefix(w.getLeft(), prefix, set); 
 		addWordsWithPrefix(w.getRight(), prefix, set); 
 	}
